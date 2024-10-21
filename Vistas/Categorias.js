@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
   import React, { useState } from 'react';
   import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
   import Ionicons from 'react-native-vector-icons/Ionicons';
