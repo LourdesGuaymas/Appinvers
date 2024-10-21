@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; 
 
 const HamburgerMenu = ({ onPress }) => {
@@ -17,7 +16,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 15, 
     marginLeft: -17, 
-},
+  },
 });
 
 export default HamburgerMenu;

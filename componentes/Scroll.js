@@ -1,3 +1,4 @@
+
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import React from 'react'
 import CuartoComponente from './CuartoComponente'
@@ -46,4 +47,3 @@ const ScrollV = () => {
 
 export default ScrollV
 
-const styles = StyleSheet.create({})

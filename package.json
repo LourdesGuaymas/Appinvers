@@ -12,20 +12,30 @@
     "@react-native-async-storage/async-storage": "^2.0.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-masked-view/masked-view": "^0.3.1",
+<<<<<<< HEAD
     "@react-native-picker/picker": "^2.7.5",
+=======
+    "@react-native-picker/picker": "2.7.5",
+>>>>>>> 46a166c357317ee1626ecda3d792f92555106804
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/drawer": "^6.7.2",
     "@react-navigation/material-bottom-tabs": "^6.2.29",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/stack": "^6.4.1",
     "axios": "^1.7.7",
+<<<<<<< HEAD
     "chart.js": "^4.4.5",
+=======
+>>>>>>> 46a166c357317ee1626ecda3d792f92555106804
     "expo": "~51.0.36",
     "expo-av": "~14.0.7",
     "expo-local-authentication": "~14.0.1",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
+<<<<<<< HEAD
     "react-chartjs-2": "^5.2.0",
+=======
+>>>>>>> 46a166c357317ee1626ecda3d792f92555106804
     "react-native": "0.74.5",
     "react-native-animatable": "^1.4.0",
     "react-native-chart-kit": "^6.12.0",

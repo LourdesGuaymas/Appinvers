@@ -1,17 +1,12 @@
-import { Text, TouchableOpacity, StyleSheet } from "react-native"
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function Btn({ presionado, texto = "Boton por defecto" }) {
     return (
-        <>
-            <TouchableOpacity style={styles.boton}>
-                <Text onPress={presionado}>
-                    {texto}
-                </Text>
-            </TouchableOpacity>
-        </>
-    )
+        <TouchableOpacity style={styles.boton} onPress={presionado}>
+            <Text>{texto}</Text>
+        </TouchableOpacity>
+    );
 }
-
 
 const styles = StyleSheet.create({
     boton: {
@@ -20,5 +15,4 @@ const styles = StyleSheet.create({
         width: 90,
         margin: 20,
     },
-}
-)
+});

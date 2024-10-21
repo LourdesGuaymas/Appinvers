@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { ScrollView, View, Text } from 'react-native';
 
@@ -22,4 +23,3 @@ const HorizontalScrollView = () => {
     );
   };
   
-  export default HorizontalScrollView;
