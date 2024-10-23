@@ -6,16 +6,15 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Register from './Vistas/Register'; 
 import Login from './Vistas/Login';
-import Ajustes from './componentes/Ajustes';
+
 import PerfilUsuario from './Vistas/PerfilUsuario';
 import Home from './Vistas/Home';
 import Categorias from './Vistas/Categorias';
-import Historial from './Vistas/Historial';
-import PagosHabituales from './Vistas/PagosHabituales';
 import AgregarGastos from './Vistas/AgregarGastos';
+import Historial from './Vistas/Historial';
+import CrearCategoria from './Vistas/CrearCategoria';
 import ValoracionApp from './Vistas/ValoracionApp';
 import GastosPorCategoria from './componentes/GastosPorCategoria';
-import LoadingIndicator from './componentes/LoadingIndicator';
 import { ExpensesProvider } from './Almacenamiento/ExpensesContext';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -41,17 +40,12 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  const rotateInterpolate = rotateValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
-
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
         <Animated.Image
-          source={require('./assets/icon.jpg')}
-          style={[styles.loadingIcon, { transform: [{ rotate: rotateInterpolate }] }]}
+          source={require('./assets/videopiola.mp4')}
+          style={styles.loadingIcon} 
           resizeMode="contain"
         />
       </View>
@@ -61,15 +55,52 @@ export default function App() {
   return (
     <ExpensesProvider>
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Home">
-          <Drawer.Screen name="Home" component={MainTabs} />
+        <Drawer.Navigator 
+          initialRouteName="HomeDrawer"
+          drawerStyle={styles.drawerStyle} // Color de fondo del drawer
+        >
+          <Drawer.Screen name="Home" component={MainTabs}  />
           <Drawer.Screen name="Login" component={Login} />
           <Drawer.Screen name="Register" component={Register} />
-          <Drawer.Screen name="Ajustes" component={Ajustes} />
-          <Drawer.Screen name="GastosPorCategoria" component={GastosPorCategoria} />
-          <Drawer.Screen name="PerfilUsuario" component={PerfilUsuario} />
           <Drawer.Screen name="Historial" component={Historial} />
+          <Drawer.Screen name="AgregarGastos" component={AgregarGastos} />
+          <Drawer.Screen  
+            name="CrearCategoria" 
+            component={CrearCategoria} 
+            options={({ navigation }) => ({
+              title: 'Crear Categoría',
+              headerLeft: () => (
+                <MaterialCommunityIcons 
+                  name="arrow-left" 
+                  size={30} 
+                  color="#000" 
+                  style={{ marginLeft: 10 }} 
+                  onPress={() => navigation.goBack()} 
+                />
+              ),
+              headerShown: true,
+              drawerLockMode: 'locked-closed',
+            })} 
+          />
           <Drawer.Screen name="ValoracionApp" component={ValoracionApp} options={{ headerShown: true }} />
+          <Drawer.Screen  
+            name="GastosPorCategoriaScreen" 
+            component={GastosPorCategoria} 
+            options={({ navigation }) => ({
+              title: 'Gastos por Categoría',
+              headerLeft: () => (
+                <MaterialCommunityIcons 
+                  name="arrow-left" 
+                  size={24} 
+                  color="#000" 
+                  style={{ marginLeft: 10 }} 
+                  onPress={() => navigation.goBack()} 
+                />
+              ),
+              headerShown: true,
+              drawerLockMode: 'locked-closed',
+            })} 
+          />
         </Drawer.Navigator>
         <StatusBar style="auto" />
       </NavigationContainer>
@@ -80,60 +111,42 @@ export default function App() {
 function MainTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="#e91e63"
-      barStyle={{ backgroundColor: 'violet' }}
+      initialRouteName="HomeTab"
+      activeColor="#a6d7dd"
+      barStyle={{ backgroundColor: '#013a63' }} // Color de fondo de la barra de pestañas
     >
       <Tab.Screen
-        name="Home"
+        name="HomeTab"
         component={Home}
         options={{
           tabBarLabel: 'Home',
+          tabBarLabelStyle: { color: '#ffab92' }, // Color de la etiqueta
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <MaterialCommunityIcons name="home" color="#89c2d9" size={26} />
           ),
         }}
       />
+      
+
       <Tab.Screen
         name="Categorias"
         component={Categorias}
         options={{
           tabBarLabel: 'Categorias',
+          tabBarLabelStyle: { color: '#ffab92' },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="folder" color={color} size={26} />
+            <MaterialCommunityIcons name="folder" color="#89c2d9" size={26} />
           ),
         }}
       />
-      <Tab.Screen
-        name="AgregarGastos"
-        component={AgregarGastos}
-        options={{
-          tabBarLabel: 'AgregarGastos',
+
+<Tab.Screen name="PerfilUsuario" component={PerfilUsuario} options={{
+          tabBarLabel: 'Perfilusuario',
+          tabBarLabelStyle: { color: '#ffab92' },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="folder" color={color} size={26} />
+            <MaterialCommunityIcons name="folder" color="#89c2d9" size={26} />
           ),
-        }}
-      />
-      <Tab.Screen
-        name="PagosHabituales"
-        component={PagosHabituales}
-        options={{
-          tabBarLabel: 'Pagos',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="cash" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="PerfilUsuario"
-        component={PerfilUsuario}
-        options={{
-          tabBarLabel: 'Perfil',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      />
+        }} />
     </Tab.Navigator>
   );
 }
@@ -146,7 +159,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   loadingIcon: {
-    width: 100,
-    height: 100,
+    width: 150,
+    height: 150,
+  },
+  drawerStyle: {
+    backgroundColor: '#ffab92', // Color de fondo del drawer
   },
 });

@@ -1,22 +1,20 @@
-// Almacenamiento/ExpensesContext.js
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 
 const ExpensesContext = createContext();
+
+export const useExpenses = () => {
+  return useContext(ExpensesContext);
+};
 
 export const ExpensesProvider = ({ children }) => {
   const [expenses, setExpenses] = useState({});
 
   const addExpense = (nuevoGasto) => {
-    if (!nuevoGasto.categoria || isNaN(nuevoGasto.monto)) {
-      console.error('Datos inválidos para agregar gasto:', nuevoGasto);
-      return;
-    }
-
-    setExpenses((prev) => {
-      const { categoria } = nuevoGasto;
-      const newItems = prev[categoria] ? [...prev[categoria], nuevoGasto] : [nuevoGasto];
-      return { ...prev, [categoria]: newItems };
-    });
+    const { categoria } = nuevoGasto;
+    setExpenses(prev => ({
+      ...prev,
+      [categoria]: [...(prev[categoria] || []), nuevoGasto],
+    }));
   };
 
   return (
@@ -25,5 +23,3 @@ export const ExpensesProvider = ({ children }) => {
     </ExpensesContext.Provider>
   );
 };
-
-export const useExpenses = () => useContext(ExpensesContext);

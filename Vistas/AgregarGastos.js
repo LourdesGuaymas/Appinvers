@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { Video } from 'expo-av';
 import { useExpenses } from '../Almacenamiento/ExpensesContext';
 
 const initialCategories = [
@@ -24,11 +24,19 @@ const initialCategories = [
 
 const AgregarGastos = ({ navigation, route }) => {
   const { addExpense } = useExpenses();
-  const { categoria } = route.params; // Obtener la categoría inicial desde los parámetros
+  const { categoria } = route.params || {};
+  
+  if (!categoria) {
+    alert('Categoría no disponible.');
+    navigation.goBack();
+    return;
+  }
+
+  const initialCategory = initialCategories.find(cat => cat.name === categoria);
   const [monto, setMonto] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(categoria); // Estado para la categoría seleccionada
-  const [colorSeleccionado, setColorSeleccionado] = useState(initialCategories.find(cat => cat.name === categoria).color); // Estado para el color
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(categoria); 
+  const [colorSeleccionado, setColorSeleccionado] = useState(initialCategory ? initialCategory.color : '#000');
 
   const handleAgregarGasto = () => {
     if (!categoriaSeleccionada || !monto) {
@@ -56,46 +64,48 @@ const AgregarGastos = ({ navigation, route }) => {
   const handleCategoriaChange = (itemValue) => {
     setCategoriaSeleccionada(itemValue);
     const selectedCategory = initialCategories.find(cat => cat.name === itemValue);
-    setColorSeleccionado(selectedCategory.color); // Cambiar el color al seleccionar una categoría
+    if (selectedCategory) {
+      setColorSeleccionado(selectedCategory.color);
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Agregar Gasto</Text>
-
-      {/* Mostrar la categoría seleccionada */}
-      <TouchableOpacity
-        style={[styles.categoriaButton, { backgroundColor: colorSeleccionado }]} // Usar el color seleccionado
-      >
-        <Text style={styles.categoriaText}>{categoriaSeleccionada}</Text>
-      </TouchableOpacity>
-
-      {/* Picker para seleccionar categoría */}
-      <Text style={styles.label}>Selecciona una Categoría:</Text>
-      <Picker
-        selectedValue={categoriaSeleccionada}
-        onValueChange={handleCategoriaChange}
-        style={styles.picker}
-      >
-        {initialCategories.map(cat => (
-          <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
-        ))}
-      </Picker>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Monto"
-        keyboardType="numeric"
-        value={monto}
-        onChangeText={setMonto}
+      <Video 
+        source={require('../assets/videopiola.mp4')} // Asegúrate de que la ruta sea correcta
+        style={styles.backgroundVideo}
+        isMuted
+        isLooping
+        resizeMode="cover" 
+        shouldPlay
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Descripción (opcional)"
-        value={descripcion}
-        onChangeText={setDescripcion}
-      />
-      <Button title="Agregar Gasto" onPress={handleAgregarGasto} />
+      <View style={styles.overlay}>
+        <Text style={styles.titulo}>Agregar Gasto</Text>
+
+        <TouchableOpacity
+          style={[styles.categoriaButton, { backgroundColor: colorSeleccionado }]}
+        >
+          <Text style={styles.categoriaText}>{categoriaSeleccionada}</Text>
+        </TouchableOpacity>
+
+        
+           
+
+        <TextInput
+          style={styles.input}
+          placeholder="Monto"
+          keyboardType="numeric"
+          value={monto}
+          onChangeText={setMonto}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Descripción (opcional)"
+          value={descripcion}
+          onChangeText={setDescripcion}
+        />
+        <Button title="Agregar Gasto" onPress={handleAgregarGasto} />
+      </View>
     </View>
   );
 };
@@ -104,37 +114,61 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    position: 'relative',
+    justifyContent: 'center', // Centra verticalmente los elementos
+    alignItems: 'center', // Centra horizontalmente los elementos
+  },
+  backgroundVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center', // Centra los elementos en la vista
+    width: '100%',
+    padding: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.0)', // Aumenta un poco la opacidad del fondo
+    borderRadius: 10,
   },
   titulo: {
-    fontSize: 24,
-    marginBottom: 16,
+    fontSize: 26,
+    marginBottom: 24, // Más espacio debajo del título
+    color: '#2c7da0',
+    fontWeight: 'bold',
   },
   categoriaButton: {
     height: 50,
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    width: '80%', // Aumenta el ancho del botón
+    marginBottom: 20, // Aumenta la separación entre los elementos
+    backgroundColor: '#4682b4', // Color de ejemplo
   },
   categoriaText: {
-    color: '#fff',
+    color: '#fff', // Blanco para mejor visibilidad
     fontSize: 18,
-  },
-  label: {
-    marginBottom: 8,
-    fontSize: 16,
-  },
-  picker: {
-    height: 50,
-    width: '100%',
-    marginBottom: 12,
+    fontWeight: 'bold',
   },
   input: {
-    height: 40,
+    height: 50,
+    width: '80%', // Aumenta el ancho del input
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
+    marginBottom: 20, // Más espacio entre los inputs
+    paddingHorizontal: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    fontSize: 16,
+    borderRadius: 10, // Redondea los bordes de los inputs
+  },
+  button: {
+    marginTop: 20,
+    width: '80%', // Aumenta el ancho del botón
+    borderRadius: 38,
   },
 });
 

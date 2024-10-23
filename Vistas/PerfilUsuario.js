@@ -1,163 +1,119 @@
-<<<<<<< HEAD
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Alert } from 'react-native';
 import { Video } from 'expo-av';
-const PerfilUsuario = () => {
+
+export default function AjustesPerfil() {
+  const [nombre, setNombre] = useState('Juan Pérez');
+  const [email, setEmail] = useState('juan.perez@example.com');
+  const [nuevaContraseña, setNuevaContraseña] = useState('');
+
+  const handleSave = () => {
+    Alert.alert('Perfil actualizado', 'Tus cambios han sido guardados.');
+  };
+
+  const handleLogout = () => {
+    Alert.alert('Cerrar sesión', '¿Estás seguro de que deseas cerrar sesión?', [
+      { text: 'Cancelar', style: 'cancel' },
+      { text: 'Cerrar sesión', onPress: () => Alert.alert('Sesión cerrada') },
+    ]);
+  };
+
   return (
     <View style={styles.container}>
-
-<Video 
-                source={require('./fondo.mp4')}
-                style={styles.video}
-                isMuted
-                isLooping
-                resizeMode="cover" 
-                shouldPlay
-            />
-      <Image
-        source={{ uri: '' }}
-        style={styles.profileImage}
+      <Video 
+        source={require('../assets/videopiola.mp4')} // Asegúrate de que la ruta sea correcta
+        style={styles.backgroundVideo}
+        isMuted
+        isLooping
+        resizeMode="cover" 
+        shouldPlay
       />
-      <Text style={styles.name}>Juan Pérez</Text>
-      <Text style={styles.description}>Desarrollador de Software</Text>
-      <Text style={styles.email}>Correo: juan.perez@email.com</Text>
-      <Text style={styles.phone}>Teléfono: +54 11 3262 1789</Text>
+      <View style={styles.overlay}>
+        <Text style={styles.title}>Ajustes de Perfil</Text>
+
+        <TextInput
+          style={styles.input}
+          placeholder="Nombre"
+          value={nombre}
+          onChangeText={setNombre}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Correo electrónico"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Nueva contraseña"
+          value={nuevaContraseña}
+          onChangeText={setNuevaContraseña}
+          secureTextEntry
+        />
+
+        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+          <Text style={styles.buttonText}>Guardar Cambios</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <Text style={styles.buttonText}>Cerrar Sesión</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#f4f4f4',
+    position: 'relative',
   },
-  profileImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75, 
-    marginBottom: 20,
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  description: {
-    fontSize: 16,
-    fontStyle: 'italic',
-    color: '#777',
-  },
-  video: {
+  backgroundVideo: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    width: '130%',
-    height: '120%',
-    zIndex: -4, 
-},
-bgOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '120%',
-    height: '120%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-    zIndex: 0,
-},
-  email: {
-    fontSize: 14,
-    color: '#333',
   },
-  phone: {
-    fontSize: 14,
-    color: '#333',
-  },
-});
-
-export default PerfilUsuario;
-=======
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { Video } from 'expo-av';
-const PerfilUsuario = () => {
-  return (
-    <View style={styles.container}>
-
-<Video 
-                source={require('./fondo.mp4')}
-                style={styles.video}
-                isMuted
-                isLooping
-                resizeMode="cover" 
-                shouldPlay
-            />
-      <Image
-        source={{ uri: '' }}
-        style={styles.profileImage}
-      />
-      <Text style={styles.name}>Juan Pérez</Text>
-      <Text style={styles.description}>Desarrollador de Software</Text>
-      <Text style={styles.email}>Correo: juan.perez@email.com</Text>
-      <Text style={styles.phone}>Teléfono: +54 11 3262 1789</Text>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
+  overlay: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#f4f4f4',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(243, 244, 246, 0.0)', // Fondo semi-transparente ajustado
   },
-  profileImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75, 
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#468faf', // Color más transparente
+    textAlign: 'center',
     marginBottom: 20,
   },
-  name: {
-    fontSize: 24,
+  input: {
+    height: 50,
+    borderColor: 'rgba(204, 204, 204, 0.7)', // Color del borde más suave
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Fondo del input más transparente
+  },
+  saveButton: {
+    backgroundColor: '#468faf', // Botón "Guardar" más transparente
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+  logoutButton: {
+    backgroundColor: 'rgba(255, 76, 76, 0.7)', // Botón "Cerrar Sesión" más transparente
+    paddingVertical: 15,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: 'rgba(255, 255, 255, 0.9)', // Texto un poco más transparente
+    fontSize: 18,
+    textAlign: 'center',
     fontWeight: 'bold',
   },
-  description: {
-    fontSize: 16,
-    fontStyle: 'italic',
-    color: '#777',
-  },
-  video: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    width: '130%',
-    height: '120%',
-    zIndex: -4, 
-},
-bgOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '120%',
-    height: '120%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-    zIndex: 0,
-},
-  email: {
-    fontSize: 14,
-    color: '#333',
-  },
-  phone: {
-    fontSize: 14,
-    color: '#333',
-  },
 });
-
-export default PerfilUsuario;
->>>>>>> 46a166c357317ee1626ecda3d792f92555106804
