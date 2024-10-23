@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Video } from 'expo-av';
@@ -25,18 +25,22 @@ const initialCategories = [
 const AgregarGastos = ({ navigation, route }) => {
   const { addExpense } = useExpenses();
   const { categoria } = route.params || {};
-  
-  if (!categoria) {
-    alert('Categoría no disponible.');
-    navigation.goBack();
-    return;
-  }
 
   const initialCategory = initialCategories.find(cat => cat.name === categoria);
+  
   const [monto, setMonto] = useState('');
   const [descripcion, setDescripcion] = useState('');
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(categoria); 
-  const [colorSeleccionado, setColorSeleccionado] = useState(initialCategory ? initialCategory.color : '#000');
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(initialCategory ? initialCategory.name : initialCategories[0].name);
+  const [colorSeleccionado, setColorSeleccionado] = useState(initialCategory ? initialCategory.color : initialCategories[0].color);
+
+  // Función para manejar la categoría seleccionada
+  const handleCategoriaChange = (itemValue) => {
+    const selectedCategory = initialCategories.find(cat => cat.name === itemValue);
+    if (selectedCategory) {
+      setCategoriaSeleccionada(selectedCategory.name);
+      setColorSeleccionado(selectedCategory.color);
+    }
+  };
 
   const handleAgregarGasto = () => {
     if (!categoriaSeleccionada || !monto) {
@@ -61,18 +65,10 @@ const AgregarGastos = ({ navigation, route }) => {
     navigation.goBack();
   };
 
-  const handleCategoriaChange = (itemValue) => {
-    setCategoriaSeleccionada(itemValue);
-    const selectedCategory = initialCategories.find(cat => cat.name === itemValue);
-    if (selectedCategory) {
-      setColorSeleccionado(selectedCategory.color);
-    }
-  };
-
   return (
     <View style={styles.container}>
       <Video 
-        source={require('../assets/videopiola.mp4')} // Asegúrate de que la ruta sea correcta
+        source={require('../assets/videopiola.mp4')} 
         style={styles.backgroundVideo}
         isMuted
         isLooping
@@ -82,14 +78,23 @@ const AgregarGastos = ({ navigation, route }) => {
       <View style={styles.overlay}>
         <Text style={styles.titulo}>Agregar Gasto</Text>
 
+        {/* Muestra el color de la categoría seleccionada */}
         <TouchableOpacity
           style={[styles.categoriaButton, { backgroundColor: colorSeleccionado }]}
         >
           <Text style={styles.categoriaText}>{categoriaSeleccionada}</Text>
         </TouchableOpacity>
 
-        
-           
+        {/* Picker para seleccionar la categoría */}
+        <Picker
+          selectedValue={categoriaSeleccionada}
+          onValueChange={handleCategoriaChange}
+          style={styles.picker}
+        >
+          {initialCategories.map(cat => (
+            <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
+          ))}
+        </Picker>
 
         <TextInput
           style={styles.input}
@@ -115,8 +120,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     position: 'relative',
-    justifyContent: 'center', // Centra verticalmente los elementos
-    alignItems: 'center', // Centra horizontalmente los elementos
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   backgroundVideo: {
     position: 'absolute',
@@ -128,15 +133,15 @@ const styles = StyleSheet.create({
   overlay: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center', // Centra los elementos en la vista
+    alignItems: 'center',
     width: '100%',
     padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.0)', // Aumenta un poco la opacidad del fondo
+    backgroundColor: 'rgba(255, 255, 255, 0.0)',
     borderRadius: 10,
   },
   titulo: {
     fontSize: 26,
-    marginBottom: 24, // Más espacio debajo del título
+    marginBottom: 24,
     color: '#2c7da0',
     fontWeight: 'bold',
   },
@@ -145,30 +150,29 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '80%', // Aumenta el ancho del botón
-    marginBottom: 20, // Aumenta la separación entre los elementos
-    backgroundColor: '#4682b4', // Color de ejemplo
+    width: '80%',
+    marginBottom: 20,
   },
   categoriaText: {
-    color: '#fff', // Blanco para mejor visibilidad
+    color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
   },
+  picker: {
+    height: 50,
+    width: '80%',
+    marginBottom: 20,
+  },
   input: {
     height: 50,
-    width: '80%', // Aumenta el ancho del input
+    width: '80%',
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 20, // Más espacio entre los inputs
+    marginBottom: 20,
     paddingHorizontal: 15,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     fontSize: 16,
-    borderRadius: 10, // Redondea los bordes de los inputs
-  },
-  button: {
-    marginTop: 20,
-    width: '80%', // Aumenta el ancho del botón
-    borderRadius: 38,
+    borderRadius: 10,
   },
 });
 

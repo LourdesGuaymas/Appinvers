@@ -4,9 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import Register from './Vistas/Register'; 
 import Login from './Vistas/Login';
-
 import PerfilUsuario from './Vistas/PerfilUsuario';
 import Home from './Vistas/Home';
 import Categorias from './Vistas/Categorias';
@@ -57,9 +57,9 @@ export default function App() {
       <NavigationContainer>
         <Drawer.Navigator 
           initialRouteName="HomeDrawer"
-          drawerStyle={styles.drawerStyle} // Color de fondo del drawer
+          drawerStyle={styles.drawerStyle} options={{ headerShown: false  }}  // Color de fondo del drawer
         >
-          <Drawer.Screen name="Home" component={MainTabs}  />
+          <Drawer.Screen name="Home" component={MainTabs} />
           <Drawer.Screen name="Login" component={Login} />
           <Drawer.Screen name="Register" component={Register} />
           <Drawer.Screen name="Historial" component={Historial} />
@@ -82,7 +82,11 @@ export default function App() {
               drawerLockMode: 'locked-closed',
             })} 
           />
-          <Drawer.Screen name="ValoracionApp" component={ValoracionApp} options={{ headerShown: true }} />
+          <Drawer.Screen 
+            name="ValoracionApp" 
+            component={ValoracionApp} 
+            options={{ headerShown: true }} 
+          />
           <Drawer.Screen  
             name="GastosPorCategoriaScreen" 
             component={GastosPorCategoria} 
@@ -102,8 +106,8 @@ export default function App() {
             })} 
           />
         </Drawer.Navigator>
-        <StatusBar style="auto" />
       </NavigationContainer>
+      <StatusBar style="auto" />
     </ExpensesProvider>
   );
 }
@@ -126,8 +130,6 @@ function MainTabs() {
           ),
         }}
       />
-      
-
       <Tab.Screen
         name="Categorias"
         component={Categorias}
@@ -139,14 +141,17 @@ function MainTabs() {
           ),
         }}
       />
-
-<Tab.Screen name="PerfilUsuario" component={PerfilUsuario} options={{
-          tabBarLabel: 'Perfilusuario',
+      <Tab.Screen
+        name="PerfilUsuario"
+        component={PerfilUsuario}
+        options={{
+          tabBarLabel: 'Perfil Usuario',
           tabBarLabelStyle: { color: '#ffab92' },
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="folder" color="#89c2d9" size={26} />
+            <MaterialCommunityIcons name="account" color="#89c2d9" size={26} />
           ),
-        }} />
+        }}
+      />
     </Tab.Navigator>
   );
 }
