@@ -26,7 +26,22 @@ const AgregarGastos = ({ navigation, route }) => {
   const { addExpense } = useExpenses();
   const { categoria } = route.params || {};
 
-  const initialCategory = initialCategories.find(cat => cat.name === categoria);
+const [initialCategory, setInitialCategory] = useState(null);
+
+  // useEffect para actualizar la categoría seleccionada cuando cambia la props
+  useEffect(() => {
+    const initialCategory = initialCategories.find(cat => cat.name === categoria);
+    if (initialCategory) {
+      setInitialCategory(initialCategory);
+      setCategoriaSeleccionada(initialCategory.name);
+      setColorSeleccionado(initialCategory.color);
+    } else {
+      setCategoriaSeleccionada(initialCategories[0].name);
+      setColorSeleccionado(initialCategories[0].color);
+    }
+  }, [categoria]); // Dependencia de categoria
+
+
   
   const [monto, setMonto] = useState('');
   const [descripcion, setDescripcion] = useState('');
@@ -85,12 +100,18 @@ const AgregarGastos = ({ navigation, route }) => {
           <Text style={styles.categoriaText}>{categoriaSeleccionada}</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity
+          style={[styles.categoriaButton, { backgroundColor: colorSeleccionado }]}
+        >
+          <Text style={styles.categoriaText}>{categoriaSeleccionada}</Text>
+        </TouchableOpacity>
+
         {/* Picker para seleccionar la categoría */}
         <Picker
           selectedValue={categoriaSeleccionada}
           onValueChange={handleCategoriaChange}
           style={styles.picker}
-        >
+        > 
           {initialCategories.map(cat => (
             <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
           ))}
