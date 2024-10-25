@@ -25,24 +25,22 @@ const AgregarGastos = ({ navigation, route }) => {
   const { addExpense } = useExpenses();
   const { categoria } = route.params || {};
 
-  const [initialCategory, setInitialCategory] = useState(null);
+  const [monto, setMonto] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(initialCategories[0].name);
+  const [colorSeleccionado, setColorSeleccionado] = useState(initialCategories[0].color);
 
+  // useEffect to update selected category when the prop changes
   useEffect(() => {
     const initialCategory = initialCategories.find(cat => cat.name === categoria);
     if (initialCategory) {
-      setInitialCategory(initialCategory);
       setCategoriaSeleccionada(initialCategory.name);
       setColorSeleccionado(initialCategory.color);
     } else {
       setCategoriaSeleccionada(initialCategories[0].name);
       setColorSeleccionado(initialCategories[0].color);
     }
-  }, [categoria]);
-
-  const [monto, setMonto] = useState('');
-  const [descripcion, setDescripcion] = useState('');
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(initialCategory ? initialCategory.name : initialCategories[0].name);
-  const [colorSeleccionado, setColorSeleccionado] = useState(initialCategory ? initialCategory.color : initialCategories[0].color);
+  }, [categoria]); // Dependency on categoria
 
   const handleCategoriaChange = (itemValue) => {
     const selectedCategory = initialCategories.find(cat => cat.name === itemValue);
@@ -77,7 +75,6 @@ const AgregarGastos = ({ navigation, route }) => {
 
   return (
     <View style={{ flex: 1, position: 'relative' }}>
-      {/* Imagen de fondo */}
       <ImageBackground 
         source={require('../assets/fondoFinal.jpg')} 
         style={{ flex: 1, justifyContent: 'center', width: '100%', height: '100%' }}
@@ -93,7 +90,6 @@ const AgregarGastos = ({ navigation, route }) => {
             <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>{categoriaSeleccionada}</Text>
           </TouchableOpacity>
 
-          {/* Picker para seleccionar la categoría */}
           <Picker
             selectedValue={categoriaSeleccionada}
             onValueChange={handleCategoriaChange}
@@ -112,7 +108,7 @@ const AgregarGastos = ({ navigation, route }) => {
               borderWidth: 1,
               marginBottom: 20,
               paddingHorizontal: 15,
-              backgroundColor: '#fff', // Background blanco
+              backgroundColor: '#fff',
               fontSize: 16,
               borderRadius: 10,
             }}
@@ -129,7 +125,7 @@ const AgregarGastos = ({ navigation, route }) => {
               borderWidth: 1,
               marginBottom: 20,
               paddingHorizontal: 15,
-              backgroundColor: '#fff', // Background blanco
+              backgroundColor: '#fff',
               fontSize: 16,
               borderRadius: 10,
             }}
@@ -139,12 +135,12 @@ const AgregarGastos = ({ navigation, route }) => {
           />
           <TouchableOpacity 
             style={{
-              backgroundColor: '#2c7da0', // Color de fondo del botón
-              paddingVertical: 12, // Espaciado vertical del botón
-              paddingHorizontal: 20, // Espaciado horizontal del botón
-              borderRadius: 8, // Bordes redondeados
-              alignItems: 'center', // Centrar el contenido
-              marginVertical: 10, // Margen vertical
+              backgroundColor: '#2c7da0',
+              paddingVertical: 12,
+              paddingHorizontal: 20,
+              borderRadius: 8,
+              alignItems: 'center',
+              marginVertical: 10,
             }} 
             onPress={handleAgregarGasto}
           >
