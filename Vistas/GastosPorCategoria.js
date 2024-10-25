@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Dimensions, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Dimensions, Text, StyleSheet, FlatList, ImageBackground } from 'react-native';
 import { PieChart } from 'react-native-chart-kit';
 import { useExpenses } from '../Almacenamiento/ExpensesContext';
 
@@ -40,47 +40,77 @@ const GastosPorCategoria = () => {
   const totalGastos = chartData.reduce((sum, item) => sum + item.population, 0);
 
   return (
-    <View style={{ flex: 1 }}>
-      <PieChart
-        data={chartData}
-        width={Dimensions.get('window').width}
-        height={220}
-        chartConfig={{
-          backgroundColor: '#ffffff',
-          backgroundGradientFrom: '#ffffff',
-          backgroundGradientTo: '#ffffff',
-          decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          style: {
-            borderRadius: 16,
-          },
-        }}
-        accessor="population"
-        backgroundColor="transparent"
-        paddingLeft="15"
-        absolute
-      />
+    <View style={styles.container}>
+      <ImageBackground
+        source={require('../assets/fondoFinal.jpg')} // Imagen de fondo
+        style={styles.imageBackground}
+        resizeMode="cover"
+      >
+        {/* Título que muestra el total de gastos */}
+        <Text style={styles.totalText}>
+          Total Gastos: ${totalGastos}
+        </Text>
 
-      {/* Lista de porcentajes y conteo */}
-      <FlatList
-        data={chartData}
-        keyExtractor={item => item.name}
-        renderItem={({ item }) => {
-          const porcentaje = ((item.population / totalGastos) * 100).toFixed(2);
-          return (
-            <View style={[styles.itemContainer, { backgroundColor: item.color }]}>
-              <Text style={styles.itemText}>
-                {item.name}: {porcentaje}% - {item.count} gasto(s)
-              </Text>
-            </View>
-          );
-        }}
-      />
+        <PieChart
+          data={chartData}
+          width={Dimensions.get('window').width}
+          height={220}
+          chartConfig={{
+            backgroundColor: '#ffffff',
+            backgroundGradientFrom: '#ffffff',
+            backgroundGradientTo: '#ffffff',
+            decimalPlaces: 0,
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+          }}
+          accessor="population"
+          backgroundColor="transparent"
+          paddingLeft="15"
+          absolute
+        />
+
+        {/* Lista de porcentajes y conteo */}
+        <FlatList
+          data={chartData}
+          keyExtractor={item => item.name}
+          renderItem={({ item }) => {
+            const porcentaje = ((item.population / totalGastos) * 100).toFixed(2);
+            return (
+              <View style={[styles.itemContainer, { backgroundColor: item.color }]}>
+                <Text style={styles.itemText}>
+                  {item.name}: {porcentaje}% - {item.count} gasto(s)
+                </Text>
+              </View>
+            );
+          }}
+        />
+      </ImageBackground>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    color: '#fff',
+  },
+  imageBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  
+  totalText: {
+    marginTop:40,
+    fontSize: 20,
+    color: '#fff', // Color blanco para el texto del total
+    fontWeight: 'bold', // Texto en negrita
+    textAlign: 'center', // Centrar el texto
+    marginBottom: 10, // Margen inferior para separar del gráfico
+  },
   itemContainer: {
     padding: 10,
     borderRadius: 5,
@@ -90,6 +120,7 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 16,
     color: '#fff', // Cambia el color del texto a blanco para mayor legibilidad
+    fontWeight: 'bold', // Establece el texto como negrita
   },
 });
 

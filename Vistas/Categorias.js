@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Video } from 'expo-av';
 
 const initialCategories = [
   { id: '1', name: 'Alimentación', icon: 'fast-food-outline', color: '#ff6347' },
@@ -40,39 +39,40 @@ export default function Categorias({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Video 
-        source={require('../assets/videopiola.mp4')} 
-        style={styles.backgroundVideo}
-        isMuted
-        isLooping
-        resizeMode="cover" 
-        shouldPlay
-      />
-      <Text style={styles.title}>Categorías de Gastos</Text>
-
-      <FlatList
-        data={categories}
-        keyExtractor={(item) => item.id}
-        numColumns={3}
-        renderItem={({ item }) => (
-          <TouchableOpacity 
-            style={styles.item} 
-            onPress={() => handleCategoryPress(item)} 
-          >
-            <View style={[styles.iconContainer, { backgroundColor: item.color }]}>
-              <Ionicons name={item.icon} size={30} color="#fff" />
-            </View>
-            <Text style={[styles.itemText, { color: item.color }]}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
-      />
-      
-      <TouchableOpacity 
-        style={styles.addCategoryButton} 
-        onPress={() => navigation.navigate('CrearCategoria', { addCategory })}
+      {/* Imagen de fondo */}
+      <ImageBackground 
+        source={require('../assets/fondoFinal.jpg')} 
+        style={styles.backgroundImage}
       >
-        <Ionicons name="add-circle-outline" size={50} color="#32cd32" />
-      </TouchableOpacity>
+        {/* Overlay para mejorar la visibilidad del contenido */}
+        <View style={styles.overlay} />
+
+        <Text style={styles.title}>Categorías de Gastos</Text>
+
+        <FlatList
+          data={categories}
+          keyExtractor={(item) => item.id}
+          numColumns={3}
+          renderItem={({ item }) => (
+            <TouchableOpacity 
+              style={styles.item} 
+              onPress={() => handleCategoryPress(item)} 
+            >
+              <View style={[styles.iconContainer, { backgroundColor: item.color }]}>
+                <Ionicons name={item.icon} size={30} color="#fff" />
+              </View>
+              <Text style={[styles.itemText, { color: item.color }]}>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+        />
+        
+        <TouchableOpacity 
+          style={styles.addCategoryButton} 
+          onPress={() => navigation.navigate('CrearCategoria', { addCategory })}
+        >
+          <Ionicons name="add-circle-outline" size={50} color="#32cd32" />
+        </TouchableOpacity>
+      </ImageBackground>
     </View>
   );
 }
@@ -80,23 +80,30 @@ export default function Categorias({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: 'center',
     position: 'relative',
   },
-  backgroundVideo: {
+  backgroundImage: {
+    flex: 1,
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  overlay: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.0)', 
+    marginTop:90,// Fondo oscuro para mejorar el contraste
   },
   title: {
+    marginTop:40,
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
-    color: '#fff',
+    color: '#fff', // Blanco para ser visible
     zIndex: 1,
   },
   item: {
@@ -105,7 +112,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     marginBottom: 10,
-    marginHorizontal: 5,
+    marginHorizontal: 6,
+    zIndex: 1,
   },
   iconContainer: {
     width: 50,
@@ -123,5 +131,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 20,
     marginBottom: 20,
+    zIndex: 1,
   },
 });

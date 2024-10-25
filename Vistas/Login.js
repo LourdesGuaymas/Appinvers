@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Text, StyleSheet, View, TextInput, Alert, TouchableOpacity, Image } from 'react-native';
 import * as Animatable from 'react-native-animatable';
@@ -27,7 +28,7 @@ export default function Login({ navigation }) {
         if (usuario) {
           Alert.alert('Éxito', `Bienvenido, ${email}`);
           saveLogin();
-          // Navegar a la siguiente pantalla después de iniciar sesión
+          // Aquí puedes navegar a la siguiente pantalla después de iniciar sesión
         } else {
           Alert.alert('Error', 'El usuario no existe');
         }
@@ -62,7 +63,7 @@ export default function Login({ navigation }) {
           onChangeText={setPassword}
         />
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Ingresar</Text>
+          <Text style={styles.buttonText}>Iniciar Sesión</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
@@ -78,20 +79,20 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3f4f6', // Fondo claro
+    backgroundColor: '#a9d6e5'
   },
   header: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1e90ff', // Color más vibrante
+    backgroundColor: '#014f86',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     paddingBottom: 30,
   },
   logo: {
-    width: 150,
-    height: 150,
+    width: 280, // Aumenté el tamaño del logo
+    height: 150, // Aumenté el tamaño del logo
     marginBottom: 20,
   },
   title: {
@@ -100,13 +101,14 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   form: {
+    marginTop:-80,
     flex: 2,
     justifyContent: 'center',
     padding: 20,
   },
   input: {
     height: 50,
-    borderColor: '#ccc',
+    borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 15,
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   button: {
-    backgroundColor: '#32cd32', // Color verde vibrante
+    backgroundColor: '#013a63',
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
@@ -128,6 +130,6 @@ const styles = StyleSheet.create({
   registerText: {
     textAlign: 'center',
     marginTop: 20,
-    color: '#1e90ff', // Color azul
+    color: '#012a4a',
   },
 });

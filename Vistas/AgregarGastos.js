@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { Video } from 'expo-av';
 import { useExpenses } from '../Almacenamiento/ExpensesContext';
 
 const initialCategories = [
@@ -26,14 +25,25 @@ const AgregarGastos = ({ navigation, route }) => {
   const { addExpense } = useExpenses();
   const { categoria } = route.params || {};
 
-  const initialCategory = initialCategories.find(cat => cat.name === categoria);
-  
+  const [initialCategory, setInitialCategory] = useState(null);
+
+  useEffect(() => {
+    const initialCategory = initialCategories.find(cat => cat.name === categoria);
+    if (initialCategory) {
+      setInitialCategory(initialCategory);
+      setCategoriaSeleccionada(initialCategory.name);
+      setColorSeleccionado(initialCategory.color);
+    } else {
+      setCategoriaSeleccionada(initialCategories[0].name);
+      setColorSeleccionado(initialCategories[0].color);
+    }
+  }, [categoria]);
+
   const [monto, setMonto] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(initialCategory ? initialCategory.name : initialCategories[0].name);
   const [colorSeleccionado, setColorSeleccionado] = useState(initialCategory ? initialCategory.color : initialCategories[0].color);
 
-  // Función para manejar la categoría seleccionada
   const handleCategoriaChange = (itemValue) => {
     const selectedCategory = initialCategories.find(cat => cat.name === itemValue);
     if (selectedCategory) {
@@ -66,114 +76,84 @@ const AgregarGastos = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Video 
-        source={require('../assets/videopiola.mp4')} 
-        style={styles.backgroundVideo}
-        isMuted
-        isLooping
-        resizeMode="cover" 
-        shouldPlay
-      />
-      <View style={styles.overlay}>
-        <Text style={styles.titulo}>Agregar Gasto</Text>
+    <View style={{ flex: 1, position: 'relative' }}>
+      {/* Imagen de fondo */}
+      <ImageBackground 
+        source={require('../assets/fondoFinal.jpg')} 
+        style={{ flex: 1, justifyContent: 'center', width: '100%', height: '100%' }}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%', padding: 20, backgroundColor: 'rgba(255, 255, 255, 0.0)', borderRadius: 10 }}>
+          <Text style={{ fontSize: 32, marginBottom: 24, color: '#2c7da0', fontWeight: 'bold' }}>
+            Agregar Gasto
+          </Text>
 
-        {/* Muestra el color de la categoría seleccionada */}
-        <TouchableOpacity
-          style={[styles.categoriaButton, { backgroundColor: colorSeleccionado }]}
-        >
-          <Text style={styles.categoriaText}>{categoriaSeleccionada}</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[{ height: 50, borderRadius: 25, justifyContent: 'center', alignItems: 'center', width: '80%', marginBottom: 20, backgroundColor: colorSeleccionado }]}
+          >
+            <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>{categoriaSeleccionada}</Text>
+          </TouchableOpacity>
 
-        {/* Picker para seleccionar la categoría */}
-        <Picker
-          selectedValue={categoriaSeleccionada}
-          onValueChange={handleCategoriaChange}
-          style={styles.picker}
-        >
-          {initialCategories.map(cat => (
-            <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
-          ))}
-        </Picker>
+          {/* Picker para seleccionar la categoría */}
+          <Picker
+            selectedValue={categoriaSeleccionada}
+            onValueChange={handleCategoriaChange}
+            style={{ height: 50, width: '80%', marginBottom: 20, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
+          >
+            {initialCategories.map(cat => (
+              <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
+            ))}
+          </Picker>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Monto"
-          keyboardType="numeric"
-          value={monto}
-          onChangeText={setMonto}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Descripción (opcional)"
-          value={descripcion}
-          onChangeText={setDescripcion}
-        />
-        <Button title="Agregar Gasto" onPress={handleAgregarGasto} />
-      </View>
+          <TextInput
+            style={{
+              height: 50,
+              width: '80%',
+              borderColor: 'gray',
+              borderWidth: 1,
+              marginBottom: 20,
+              paddingHorizontal: 15,
+              backgroundColor: '#fff', // Background blanco
+              fontSize: 16,
+              borderRadius: 10,
+            }}
+            placeholder="Monto"
+            keyboardType="numeric"
+            value={monto}
+            onChangeText={setMonto}
+          />
+          <TextInput
+            style={{
+              height: 50,
+              width: '80%',
+              borderColor: 'gray',
+              borderWidth: 1,
+              marginBottom: 20,
+              paddingHorizontal: 15,
+              backgroundColor: '#fff', // Background blanco
+              fontSize: 16,
+              borderRadius: 10,
+            }}
+            placeholder="Descripción (opcional)"
+            value={descripcion}
+            onChangeText={setDescripcion}
+          />
+          <TouchableOpacity 
+            style={{
+              backgroundColor: '#2c7da0', // Color de fondo del botón
+              paddingVertical: 12, // Espaciado vertical del botón
+              paddingHorizontal: 20, // Espaciado horizontal del botón
+              borderRadius: 8, // Bordes redondeados
+              alignItems: 'center', // Centrar el contenido
+              marginVertical: 10, // Margen vertical
+            }} 
+            onPress={handleAgregarGasto}
+          >
+            <Text style={{ color: '#ffffff', fontSize: 18, fontWeight: 'bold' }}>Agregar Gasto</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    position: 'relative',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  backgroundVideo: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  overlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.0)',
-    borderRadius: 10,
-  },
-  titulo: {
-    fontSize: 26,
-    marginBottom: 24,
-    color: '#2c7da0',
-    fontWeight: 'bold',
-  },
-  categoriaButton: {
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '80%',
-    marginBottom: 20,
-  },
-  categoriaText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  picker: {
-    height: 50,
-    width: '80%',
-    marginBottom: 20,
-  },
-  input: {
-    height: 50,
-    width: '80%',
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 20,
-    paddingHorizontal: 15,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    fontSize: 16,
-    borderRadius: 10,
-  },
-});
 
 export default AgregarGastos;

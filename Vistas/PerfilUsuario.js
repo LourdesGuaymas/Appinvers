@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, TouchableOpacity, Alert } from 'react-native';
-import { Video } from 'expo-av';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, ImageBackground } from 'react-native';
 
 export default function AjustesPerfil() {
   const [nombre, setNombre] = useState('Juan Pérez');
@@ -20,47 +19,44 @@ export default function AjustesPerfil() {
 
   return (
     <View style={styles.container}>
-      <Video 
-        source={require('../assets/videopiola.mp4')} // Asegúrate de que la ruta sea correcta
-        style={styles.backgroundVideo}
-        isMuted
-        isLooping
-        resizeMode="cover" 
-        shouldPlay
-      />
-      <View style={styles.overlay}>
-        <Text style={styles.title}>Ajustes de Perfil</Text>
+      <ImageBackground 
+        source={require('../assets/fondoFinal.jpg')} // Asegúrate de que la ruta sea correcta
+        style={styles.backgroundImage}
+      >
+        <View style={styles.overlay}>
+          <Text style={styles.title}>Ajustes de Perfil</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre"
-          value={nombre}
-          onChangeText={setNombre}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Correo electrónico"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Nueva contraseña"
-          value={nuevaContraseña}
-          onChangeText={setNuevaContraseña}
-          secureTextEntry
-        />
+          <TextInput
+            style={styles.input}
+            placeholder="Nombre"
+            value={nombre}
+            onChangeText={setNombre}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Correo electrónico"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Nueva contraseña"
+            value={nuevaContraseña}
+            onChangeText={setNuevaContraseña}
+            secureTextEntry
+          />
 
-        <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-          <Text style={styles.buttonText}>Guardar Cambios</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+            <Text style={styles.buttonText}>Guardar Cambios</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Text style={styles.buttonText}>Cerrar Sesión</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <Text style={styles.buttonText}>Cerrar Sesión</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -70,25 +66,23 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
   },
-  backgroundVideo: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover', // Ajusta la imagen para cubrir toda la pantalla
+    justifyContent: 'center',
   },
   overlay: {
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    backgroundColor: 'rgba(243, 244, 246, 0.0)', // Fondo semi-transparente ajustado
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Capa transparente sobre la imagen de fondo
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#468faf', // Color más transparente
+    color: '#468faf', // Texto blanco sobre el fondo
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 30,
   },
   input: {
     height: 50,
@@ -96,19 +90,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 15,
-    marginBottom: 15,
+    marginBottom: 20,
+    width:320,
+    marginLeft:26,
     backgroundColor: 'rgba(255, 255, 255, 0.8)', // Fondo del input más transparente
   },
   saveButton: {
+    marginTop:30,
     backgroundColor: '#468faf', // Botón "Guardar" más transparente
     paddingVertical: 15,
     borderRadius: 10,
     marginBottom: 15,
+    width:300,
+    marginLeft:35,
   },
   logoutButton: {
     backgroundColor: 'rgba(255, 76, 76, 0.7)', // Botón "Cerrar Sesión" más transparente
     paddingVertical: 15,
     borderRadius: 10,
+    width:300,
+    marginLeft:35,
   },
   buttonText: {
     color: 'rgba(255, 255, 255, 0.9)', // Texto un poco más transparente

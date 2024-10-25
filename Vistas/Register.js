@@ -71,7 +71,7 @@ export default function Registro({ navigation }) {
         />
 
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Registrar</Text>
+          <Text style={styles.buttonText}>Registrarse</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
@@ -85,19 +85,19 @@ export default function Registro({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#a9d6e5',
   },
   header: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#6200ee',
+    backgroundColor: '#014f86',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     paddingBottom: 30,
   },
   logo: {
-    width: 150, // Aumenté el tamaño del logo
+    width: 280, // Aumenté el tamaño del logo
     height: 150, // Aumenté el tamaño del logo
     marginBottom: 20,
   },
@@ -109,9 +109,10 @@ const styles = StyleSheet.create({
   form: {
     flex: 2,
     justifyContent: 'center',
-    padding: 20,
+    padding: 20,marginTop:-40,
   },
   input: {
+    
     height: 50,
     borderColor: '#ccc',
     borderWidth: 1,
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     elevation: 2, // Sombra para Android
   },
   button: {
-    backgroundColor: '#6200ee',
+    backgroundColor: '#013a63',
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
   },
   registerText: {
     textAlign: 'center',
-    color: '#6200ee',
+    color: '#013a63',
     textDecorationLine: 'underline',
   },
 });

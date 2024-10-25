@@ -5,6 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+// Importa tus pantallas
 import Register from './Vistas/Register'; 
 import Login from './Vistas/Login';
 import PerfilUsuario from './Vistas/PerfilUsuario';
@@ -14,7 +15,7 @@ import AgregarGastos from './Vistas/AgregarGastos';
 import Historial from './Vistas/Historial';
 import CrearCategoria from './Vistas/CrearCategoria';
 import ValoracionApp from './Vistas/ValoracionApp';
-import GastosPorCategoria from './componentes/GastosPorCategoria';
+import GastosPorCategoria from './Vistas/GastosPorCategoria';
 import { ExpensesProvider } from './Almacenamiento/ExpensesContext';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -44,7 +45,7 @@ export default function App() {
     return (
       <View style={styles.loadingContainer}>
         <Animated.Image
-          source={require('./assets/videopiola.mp4')}
+          source={require('./assets/costo.gif')}
           style={styles.loadingIcon} 
           resizeMode="contain"
         />
@@ -57,54 +58,20 @@ export default function App() {
       <NavigationContainer>
         <Drawer.Navigator 
           initialRouteName="HomeDrawer"
-          drawerStyle={styles.drawerStyle} options={{ headerShown: false  }}  // Color de fondo del drawer
+          drawerStyle={styles.drawerStyle} 
+          screenOptions={{ headerShown: false }} // Para ocultar el header del Drawer
         >
-          <Drawer.Screen name="Home" component={MainTabs} />
+          {/* Aquí estamos usando el Tab Navigator en el Drawer */}
+          <Drawer.Screen name="MainTabs" component={MainTabs} />
+
+          {/* Otras pantallas del Drawer */}
           <Drawer.Screen name="Login" component={Login} />
           <Drawer.Screen name="Register" component={Register} />
-          <Drawer.Screen name="Historial" component={Historial} />
+          <Drawer.Screen name="HistorialScreen" component={Historial} />
           <Drawer.Screen name="AgregarGastos" component={AgregarGastos} />
-          <Drawer.Screen  
-            name="CrearCategoria" 
-            component={CrearCategoria} 
-            options={({ navigation }) => ({
-              title: 'Crear Categoría',
-              headerLeft: () => (
-                <MaterialCommunityIcons 
-                  name="arrow-left" 
-                  size={30} 
-                  color="#000" 
-                  style={{ marginLeft: 10 }} 
-                  onPress={() => navigation.goBack()} 
-                />
-              ),
-              headerShown: true,
-              drawerLockMode: 'locked-closed',
-            })} 
-          />
-          <Drawer.Screen 
-            name="ValoracionApp" 
-            component={ValoracionApp} 
-            options={{ headerShown: true }} 
-          />
-          <Drawer.Screen  
-            name="GastosPorCategoriaScreen" 
-            component={GastosPorCategoria} 
-            options={({ navigation }) => ({
-              title: 'Gastos por Categoría',
-              headerLeft: () => (
-                <MaterialCommunityIcons 
-                  name="arrow-left" 
-                  size={24} 
-                  color="#000" 
-                  style={{ marginLeft: 10 }} 
-                  onPress={() => navigation.goBack()} 
-                />
-              ),
-              headerShown: true,
-              drawerLockMode: 'locked-closed',
-            })} 
-          />
+          <Drawer.Screen name="CrearCategoria" component={CrearCategoria} />
+          <Drawer.Screen name="ValoracionAppScreen" component={ValoracionApp} />
+          <Drawer.Screen name="GastosPorCategoriaScreen" component={GastosPorCategoria} />
         </Drawer.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />
@@ -112,6 +79,7 @@ export default function App() {
   );
 }
 
+// Tab Navigator para las pestañas
 function MainTabs() {
   return (
     <Tab.Navigator
@@ -124,18 +92,16 @@ function MainTabs() {
         component={Home}
         options={{
           tabBarLabel: 'Home',
-          tabBarLabelStyle: { color: '#ffab92' }, // Color de la etiqueta
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="home" color="#89c2d9" size={26} />
           ),
         }}
       />
       <Tab.Screen
-        name="Categorias"
+        name="CategoriasScreen"
         component={Categorias}
         options={{
           tabBarLabel: 'Categorias',
-          tabBarLabelStyle: { color: '#ffab92' },
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="folder" color="#89c2d9" size={26} />
           ),
@@ -146,7 +112,6 @@ function MainTabs() {
         component={PerfilUsuario}
         options={{
           tabBarLabel: 'Perfil Usuario',
-          tabBarLabelStyle: { color: '#ffab92' },
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="account" color="#89c2d9" size={26} />
           ),
@@ -155,6 +120,8 @@ function MainTabs() {
     </Tab.Navigator>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   loadingContainer: {
