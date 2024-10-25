@@ -1,15 +1,31 @@
-
-import React, { useState } from 'react';
-import { Text, StyleSheet, View, TextInput, Alert, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, StyleSheet, View, TextInput, Alert, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as LocalAuthentication from 'expo-local-authentication';
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); // State to track loading
 
   const saveLogin = async () => {
     await AsyncStorage.setItem('userLoggedIn', 'true');
+  };
+
+  const authenticateBiometric = async () => {
+    const compatible = await LocalAuthentication.hasHardwareAsync();
+    if (!compatible) {
+      Alert.alert('Dispositivo no compatible con autenticación biométrica');
+      return;
+    }
+
+    const { success } = await LocalAuthentication.authenticateAsync();
+    if (success) {
+      Alert.alert('Éxito', 'Autenticación biométrica exitosa');
+    } else {
+      Alert.alert('Falló la autenticación biométrica');
+    }
   };
 
   const handleLogin = async () => {
@@ -18,26 +34,33 @@ export default function Login({ navigation }) {
       return;
     }
 
+    setLoading(true); // Show loading indicator
+
     try {
-      const response = await fetch(`http://10.0.1.33:3000/api/usuarios?email=${email}`);
-      
-      if (response.ok) {
-        const usuarios = await response.json();
-        const usuario = usuarios.find(user => user.email === email);
-        
-        if (usuario) {
-          Alert.alert('Éxito', `Bienvenido, ${email}`);
-          saveLogin();
-          // Aquí puedes navegar a la siguiente pantalla después de iniciar sesión
-        } else {
-          Alert.alert('Error', 'El usuario no existe');
-        }
-      } else {
-        Alert.alert('Error', 'No se pudo verificar el usuario');
+      const response = await fetch('http://192.168.100.20:3000/api/usuarios/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        Alert.alert('Error', 'Credenciales incorrectas');
+        setLoading(false);
+        return;
       }
+
+      const usuario = await response.json();
+      Alert.alert('Éxito', `Bienvenido, ${email}`);
+      await saveLogin(); // Save login state
+      await authenticateBiometric(); // Prompt for biometric authentication
+      navigation.navigate('Home'); // Navigate to Home after login
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Hubo un problema al conectar con el servidor');
+    } finally {
+      setLoading(false); // Hide loading indicator
     }
   };
 
@@ -63,7 +86,11 @@ export default function Login({ navigation }) {
           onChangeText={setPassword}
         />
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Iniciar Sesión</Text>
+          {loading ? (
+            <ActivityIndicator color="#fff" /> // Show loading spinner
+          ) : (
+            <Text style={styles.buttonText}>Iniciar Sesión</Text>
+          )}
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
@@ -79,7 +106,7 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#a9d6e5'
+    backgroundColor: '#a9d6e5',
   },
   header: {
     flex: 1,
@@ -91,8 +118,8 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   logo: {
-    width: 280, // Aumenté el tamaño del logo
-    height: 150, // Aumenté el tamaño del logo
+    width: 280,
+    height: 150,
     marginBottom: 20,
   },
   title: {
@@ -101,7 +128,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   form: {
-    marginTop:-80,
+    marginTop: -80,
     flex: 2,
     justifyContent: 'center',
     padding: 20,

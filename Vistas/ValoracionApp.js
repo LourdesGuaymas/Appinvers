@@ -73,15 +73,19 @@ const styles = StyleSheet.create({
   },
   starWrapper: {
     borderWidth: 2,
-    borderColor: 'black', // Borde negro para las estrellas
+    borderColor: '#blue ', // Cambia a un color más visible para el borde
     borderRadius: 20, // Opcional: para redondear bordes
     margin: 5,
     padding: 5, // Espaciado interno para hacer el borde más visible
-    // Asegurarse de que el fondo sea transparente
+    backgroundColor: 'rgba(255, 255, 255, 0.3)', // Fondo semitransparente para resaltar la estrella
+    elevation: 2, // Sombra en Android
+    shadowColor: '#000', // Sombra en iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   submitButton: {
-   
-     backgroundColor: '#2c7da0',// Color violeta oscuro
+    backgroundColor: '#2c7da0', // Color violeta oscuro
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 10,
@@ -93,4 +97,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-

@@ -57,7 +57,7 @@ export default function App() {
     <ExpensesProvider>
       <NavigationContainer>
         <Drawer.Navigator 
-          initialRouteName="HomeDrawer"
+      
           drawerStyle={styles.drawerStyle} 
           screenOptions={{ headerShown: false }} // Para ocultar el header del Drawer
         >
@@ -67,7 +67,7 @@ export default function App() {
           {/* Otras pantallas del Drawer */}
           <Drawer.Screen name="Login" component={Login} />
           <Drawer.Screen name="Register" component={Register} />
-          <Drawer.Screen name="HistorialScreen" component={Historial} />
+          <Drawer.Screen name="Historial" component={Historial} />
           <Drawer.Screen name="AgregarGastos" component={AgregarGastos} />
           <Drawer.Screen name="CrearCategoria" component={CrearCategoria} />
           <Drawer.Screen name="ValoracionAppScreen" component={ValoracionApp} />
@@ -98,7 +98,7 @@ function MainTabs() {
         }}
       />
       <Tab.Screen
-        name="CategoriasScreen"
+        name="Categorias"///cambiado
         component={Categorias}
         options={{
           tabBarLabel: 'Categorias',
