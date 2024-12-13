@@ -3,7 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, ImageBackground } from 'react-n
 import { useExpenses } from '../Almacenamiento/ExpensesContext';
 
 const initialCategories = [
-  // Tus categorías aquí
+ 
 ];
 
 const Historial = ({ navigation }) => {
@@ -23,7 +23,7 @@ const Historial = ({ navigation }) => {
   const totalIngresos = Array.isArray(income) ? income.reduce((sum, item) => sum + item.monto, 0) : 0;
 
   const renderItem = ({ item }) => (
-    <View style={{ padding: 10, borderRadius: 5, marginVertical: 4, marginHorizontal: 10, backgroundColor: item.color }}>
+    <View style={{ padding: 10, borderRadius: 5, marginVertical: 3, marginHorizontal: 10, backgroundColor: item.color }}>
       <Text style={{ fontSize: 16, color: '#fff' }}>
         {item.name}: ${item.population.toFixed(2)}
       </Text>
@@ -31,14 +31,14 @@ const Historial = ({ navigation }) => {
   );
 
   return (
-    <ImageBackground source={require('../assets/fondoFinal.jpg')} style={{ flex: 1, resizeMode: 'cover' }}>
+    <ImageBackground  style={{ flex: 1, resizeMode: 'cover', backgroundColor: '#272780' }}>
       <View style={{ flex: 1 }}>
         <FlatList
           data={chartData}
           keyExtractor={item => item.name}
           ListHeaderComponent={() => (
             <>
-              <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#fff', textAlign: 'center', marginVertical: 20 }}>
+              <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#FFD700', textAlign: 'center', marginVertical: 60 }}>
                 Historial de Transacciones
               </Text>
               <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#fff', marginVertical: 10, textAlign: 'center' }}>
@@ -65,7 +65,7 @@ const Historial = ({ navigation }) => {
 
         {/* Botón para ir a la vista GastosPorCategoria */}
         <TouchableOpacity
-          style={{ backgroundColor: '#2c7da0', borderRadius: 5, padding: 15, margin: 20, alignItems: 'center' }}
+          style={{   backgroundColor: '#1B1B3A', borderRadius: 5, padding: 15, margin: 20, alignItems: 'center' }}
           onPress={() => navigation.navigate('GastosPorCategoriaScreen')}
         >
           <Text style={{ color: '#fff', fontSize: 18 }}>

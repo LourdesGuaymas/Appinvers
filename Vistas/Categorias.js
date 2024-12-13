@@ -41,7 +41,7 @@ export default function Categorias({ navigation }) {
     <View style={styles.container}>
       {/* Imagen de fondo */}
       <ImageBackground 
-        source={require('../assets/fondoFinal.jpg')} 
+         
         style={styles.backgroundImage}
       >
         {/* Overlay para mejorar la visibilidad del contenido */}
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
+    backgroundColor: '#272780',
   },
   overlay: {
     position: 'absolute',
@@ -99,11 +100,14 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop:40,
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
+   
+    color: '#FFD700',
+    marginBottom: 15, fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
-    color: '#fff', // Blanco para ser visible
+   
     zIndex: 1,
   },
   item: {

@@ -42,9 +42,7 @@ const GastosPorCategoria = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../assets/fondoFinal.jpg')} // Imagen de fondo
-        style={styles.imageBackground}
-        resizeMode="cover"
+        
       >
         {/* Título que muestra el total de gastos */}
         <Text style={styles.totalText}>
@@ -94,33 +92,38 @@ const GastosPorCategoria = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    color: '#fff',
+    
+    color: '#FFD700', // amarillo
+
+    backgroundColor: '#272780',//azul clarito
   },
   imageBackground: {
     flex: 1,
     justifyContent: 'center',
     width: '100%',
     height: '100%',
+    color:'white',
   },
   
   totalText: {
     marginTop:40,
     fontSize: 20,
-    color: '#fff', // Color blanco para el texto del total
-    fontWeight: 'bold', // Texto en negrita
-    textAlign: 'center', // Centrar el texto
-    marginBottom: 10, // Margen inferior para separar del gráfico
+    color: '#fff', 
+    fontWeight: 'bold', 
+    textAlign: 'center', 
+    marginBottom: 10,
   },
   itemContainer: {
     padding: 10,
     borderRadius: 5,
     marginVertical: 4,
     marginHorizontal: 10,
+    color:'white', 
   },
   itemText: {
     fontSize: 16,
-    color: '#fff', // Cambia el color del texto a blanco para mayor legibilidad
-    fontWeight: 'bold', // Establece el texto como negrita
+    color: '#fff', 
+    fontWeight: 'bold', //texto como negrita
   },
 });
 

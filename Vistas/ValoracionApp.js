@@ -13,12 +13,11 @@ export default function ValoracionApp() {
 
   const handleSubmit = () => {
     Alert.alert('Gracias por tu valoración', `Has dado ${rating} estrellas.`);
-    // Aquí puedes añadir la lógica para enviar la valoración a un servidor
   };
 
   return (
     <ImageBackground 
-      source={require('../assets/fondoFinal.jpg')} // Ruta de la imagen de fondo
+    
       style={styles.container}
     >
       {/* Contenido de la valoración */}
@@ -50,12 +49,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#272780',
   },
   contentContainer: {
-    zIndex: 1, // Asegura que el contenido esté por encima del fondo
+    zIndex: 1, 
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Fondo blanco semitransparente para destacar el contenido
+    backgroundColor: '#272760',// Fondo blanco semitransparente 
     borderRadius: 20,
     padding: 30,
     width: '80%',
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#2c7da0', // Color violeta oscuro
+    color: '#FFD700',
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -73,11 +73,11 @@ const styles = StyleSheet.create({
   },
   starWrapper: {
     borderWidth: 2,
-    borderColor: '#blue ', // Cambia a un color más visible para el borde
+    borderColor: 'blue ', 
     borderRadius: 20, // Opcional: para redondear bordes
     margin: 5,
-    padding: 5, // Espaciado interno para hacer el borde más visible
-    backgroundColor: 'rgba(255, 255, 255, 0.3)', // Fondo semitransparente para resaltar la estrella
+    padding: 5, // Espaciado interno 
+   
     elevation: 2, // Sombra en Android
     shadowColor: '#000', // Sombra en iOS
     shadowOffset: { width: 0, height: 2 },
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   submitButton: {
-    backgroundColor: '#2c7da0', // Color violeta oscuro
+    backgroundColor: '#272780',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 10,

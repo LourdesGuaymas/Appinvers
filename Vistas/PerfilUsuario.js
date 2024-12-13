@@ -20,7 +20,7 @@ export default function AjustesPerfil() {
   return (
     <View style={styles.container}>
       <ImageBackground 
-        source={require('../assets/fondoFinal.jpg')} // Asegúrate de que la ruta sea correcta
+       // Asegúrate de que la ruta sea correcta
         style={styles.backgroundImage}
       >
         <View style={styles.overlay}>
@@ -65,8 +65,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
+    backgroundColor: '#272780',
   },
   backgroundImage: {
+   
+
+
     flex: 1,
     resizeMode: 'cover', // Ajusta la imagen para cubrir toda la pantalla
     justifyContent: 'center',
@@ -75,12 +79,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Capa transparente sobre la imagen de fondo
+ 
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#468faf', // Texto blanco sobre el fondo
+    color: '#FFD700', // amarillo
+  
     textAlign: 'center',
     marginBottom: 30,
   },
@@ -97,7 +102,8 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     marginTop:30,
-    backgroundColor: '#468faf', // Botón "Guardar" más transparente
+   
+    backgroundColor: '#1B1B3A', //azul de fondo oscuro
     paddingVertical: 15,
     borderRadius: 10,
     marginBottom: 15,
@@ -105,7 +111,9 @@ const styles = StyleSheet.create({
     marginLeft:35,
   },
   logoutButton: {
-    backgroundColor: 'rgba(255, 76, 76, 0.7)', // Botón "Cerrar Sesión" más transparente
+   
+    backgroundColor: '#272763',//azul clarito
+  
     paddingVertical: 15,
     borderRadius: 10,
     width:300,
@@ -116,5 +124,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     fontWeight: 'bold',
+    
   },
 });

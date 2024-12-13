@@ -30,12 +30,12 @@ export default function CrearCategoria({ route, navigation }) {
   };
 
   return (
-    <ImageBackground source={require('../assets/fondoFinal.jpg')} style={{ flex: 1, resizeMode: 'cover' }}>
+    <ImageBackground  style={{ flex: 1, resizeMode: 'cover' ,backgroundColor: '#272780',}}>
       {/* Overlay para oscurecer el fondo */}
-      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.6)', zIndex: 0 }} />
+      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0 }} />
 
       <View style={{ flex: 1, padding: 20, justifyContent: 'center', backgroundColor: 'transparent' }}>
-        <Text style={{ fontSize: 24, marginTop: 60, fontWeight: 'bold', color: '#2c7da0', textAlign: 'center', marginBottom: 10, zIndex: 1 }}>
+        <Text style={{ fontSize: 29, marginTop: 60, fontWeight: 'bold', color: '#FFD700', textAlign: 'center', marginBottom: 10, zIndex: 1 }}>
           Crea una nueva Categoría
         </Text>
         <TextInput
@@ -49,15 +49,15 @@ export default function CrearCategoria({ route, navigation }) {
             marginTop: 20,
             marginBottom: 20,
             backgroundColor: '#ffffff',
-            fontSize: 16,
+            fontSize: 20,
             zIndex: 1,
           }}
           placeholder="Nombre de la categoría"
           value={categoryName}
           onChangeText={setCategoryName}
         />
-        
-        <Text style={{ fontSize: 24, marginBottom: 10, fontWeight: 'bold', color: '#2c7da0', zIndex: 1 }}>
+
+        <Text style={{ fontSize: 24, marginBottom: 10, fontWeight: 'bold',  color: '#FFD700', zIndex: 1 }}>
           Selecciona un ícono:
         </Text>
         <FlatList
@@ -94,13 +94,13 @@ export default function CrearCategoria({ route, navigation }) {
             borderRadius: 5,
             alignItems: 'center',
             marginTop: 20,
-            backgroundColor: 'rgba(2, 62, 74, 0.9)',
+            backgroundColor: '#1B1B3A',
             zIndex: 1,
           }} 
           onPress={handleCreateCategory}
           disabled={!categoryName || !selectedIcon}
         >
-          <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>
+          <Text style={{ color: '#FFD700', fontSize: 18, fontWeight: 'bold' }}>
             Crear Categoría
           </Text>
         </TouchableOpacity>

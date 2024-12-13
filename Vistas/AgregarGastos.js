@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, FlatList } from 'react-native';
+import Modal from 'react-native-modal';
 import { useExpenses } from '../Almacenamiento/ExpensesContext';
 
 const initialCategories = [
@@ -29,6 +29,7 @@ const AgregarGastos = ({ navigation, route }) => {
   const [descripcion, setDescripcion] = useState('');
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(initialCategories[0].name);
   const [colorSeleccionado, setColorSeleccionado] = useState(initialCategories[0].color);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   // useEffect to update selected category when the prop changes
   useEffect(() => {
@@ -40,13 +41,14 @@ const AgregarGastos = ({ navigation, route }) => {
       setCategoriaSeleccionada(initialCategories[0].name);
       setColorSeleccionado(initialCategories[0].color);
     }
-  }, [categoria]); // Dependency on categoria
+  }, [categoria]);
 
   const handleCategoriaChange = (itemValue) => {
     const selectedCategory = initialCategories.find(cat => cat.name === itemValue);
     if (selectedCategory) {
       setCategoriaSeleccionada(selectedCategory.name);
       setColorSeleccionado(selectedCategory.color);
+      setModalVisible(false); // Close modal after selection
     }
   };
 
@@ -73,83 +75,117 @@ const AgregarGastos = ({ navigation, route }) => {
     navigation.goBack();
   };
 
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      style={[styles.categoryItem, { backgroundColor: item.color }]}
+      onPress={() => handleCategoriaChange(item.name)}
+    >
+      <Text style={styles.categoryText}>{item.name}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={{ flex: 1, position: 'relative' }}>
       <ImageBackground 
-        source={require('../assets/fondoFinal.jpg')} 
-        style={{ flex: 1, justifyContent: 'center', width: '100%', height: '100%' }}
+        style={{ flex: 1, justifyContent: 'center', backgroundColor: '#272780', width: '100%', height: '100%' }}
       >
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: '100%', padding: 20, backgroundColor: 'rgba(255, 255, 255, 0.0)', borderRadius: 10 }}>
-          <Text style={{ fontSize: 32, marginBottom: 24, color: '#2c7da0', fontWeight: 'bold' }}>
+          <Text style={{ fontSize: 32, marginBottom: 24, color: '#FFD700', fontWeight: 'bold' }}>
             Agregar Gasto
           </Text>
 
           <TouchableOpacity
             style={[{ height: 50, borderRadius: 25, justifyContent: 'center', alignItems: 'center', width: '80%', marginBottom: 20, backgroundColor: colorSeleccionado }]}
+            onPress={() => setModalVisible(true)} // Open modal
           >
             <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>{categoriaSeleccionada}</Text>
           </TouchableOpacity>
 
-          <Picker
-            selectedValue={categoriaSeleccionada}
-            onValueChange={handleCategoriaChange}
-            style={{ height: 50, width: '80%', marginBottom: 20, backgroundColor: 'rgba(255, 255, 255, 0.8)' }}
-          >
-            {initialCategories.map(cat => (
-              <Picker.Item key={cat.id} label={cat.name} value={cat.name} />
-            ))}
-          </Picker>
+          {/* Modal for selecting category */}
+          <Modal isVisible={isModalVisible} onBackdropPress={() => setModalVisible(false)}>
+            <View style={styles.modalContent}>
+              <FlatList
+                data={initialCategories}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                style={styles.categoryList}
+                showsVerticalScrollIndicator={false} // Hide the scroll bar
+              />
+            </View>
+          </Modal>
 
           <TextInput
-            style={{
-              height: 50,
-              width: '80%',
-              borderColor: 'gray',
-              borderWidth: 1,
-              marginBottom: 20,
-              paddingHorizontal: 15,
-              backgroundColor: '#fff',
-              fontSize: 16,
-              borderRadius: 10,
-            }}
+            style={styles.input}
             placeholder="Monto"
             keyboardType="numeric"
             value={monto}
             onChangeText={setMonto}
           />
           <TextInput
-            style={{
-              height: 50,
-              width: '80%',
-              borderColor: 'gray',
-              borderWidth: 1,
-              marginBottom: 20,
-              paddingHorizontal: 15,
-              backgroundColor: '#fff',
-              fontSize: 16,
-              borderRadius: 10,
-            }}
+            style={styles.input}
             placeholder="Descripción (opcional)"
             value={descripcion}
             onChangeText={setDescripcion}
           />
           <TouchableOpacity 
-            style={{
-              backgroundColor: '#2c7da0',
-              paddingVertical: 12,
-              paddingHorizontal: 20,
-              borderRadius: 8,
-              alignItems: 'center',
-              marginVertical: 10,
-            }} 
+            style={styles.button} 
             onPress={handleAgregarGasto}
           >
-            <Text style={{ color: '#ffffff', fontSize: 18, fontWeight: 'bold' }}>Agregar Gasto</Text>
+            <Text style={styles.buttonText}>Agregar Gasto</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  input: {
+    height: 50,
+    width: '80%',
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingHorizontal: 15,
+    backgroundColor: '#fff',
+    fontSize: 16,
+    borderRadius: 10,
+  },
+  button: {
+    backgroundColor: '#1B1B3A',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+    maxHeight: '60%',
+  },
+  categoryList: {
+    maxHeight: '100%',
+  },
+  categoryItem: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    borderRadius: 10,
+    marginBottom: 5,
+  },
+  categoryText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+});
 
 export default AgregarGastos;

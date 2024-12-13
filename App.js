@@ -5,7 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-// Importa tus pantallas
+// Importacion de pantallas
 import Register from './Vistas/Register'; 
 import Login from './Vistas/Login';
 import PerfilUsuario from './Vistas/PerfilUsuario';
@@ -16,6 +16,7 @@ import Historial from './Vistas/Historial';
 import CrearCategoria from './Vistas/CrearCategoria';
 import ValoracionApp from './Vistas/ValoracionApp';
 import GastosPorCategoria from './Vistas/GastosPorCategoria';
+import MonedasVista from './Vistas/MonedasVista';
 import { ExpensesProvider } from './Almacenamiento/ExpensesContext';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -57,8 +58,7 @@ export default function App() {
     <ExpensesProvider>
       <NavigationContainer>
         <Drawer.Navigator 
-      
-          drawerStyle={styles.drawerStyle} 
+         
           screenOptions={{ headerShown: false }} // Para ocultar el header del Drawer
         >
           {/* Aquí estamos usando el Tab Navigator en el Drawer */}
@@ -72,6 +72,7 @@ export default function App() {
           <Drawer.Screen name="CrearCategoria" component={CrearCategoria} />
           <Drawer.Screen name="ValoracionAppScreen" component={ValoracionApp} />
           <Drawer.Screen name="GastosPorCategoriaScreen" component={GastosPorCategoria} />
+          <Drawer.Screen name="MonedasVista" component={MonedasVista} />
         </Drawer.Navigator>
       </NavigationContainer>
       <StatusBar style="auto" />
@@ -79,13 +80,13 @@ export default function App() {
   );
 }
 
-// Tab Navigator para las pestañas
+// Tab Navigator 
 function MainTabs() {
   return (
     <Tab.Navigator
       initialRouteName="HomeTab"
-      activeColor="#a6d7dd"
-      barStyle={{ backgroundColor: '#013a63' }} // Color de fondo de la barra de pestañas
+      activeColor="#FFD700" 
+      barStyle={{ backgroundColor: '#1B1B3A' }} 
     >
       <Tab.Screen
         name="HomeTab"
@@ -93,17 +94,17 @@ function MainTabs() {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color="#89c2d9" size={26} />
+            <MaterialCommunityIcons name="home" color="#FFD700" size={26} />
           ),
         }}
       />
       <Tab.Screen
-        name="Categorias"///cambiado
+        name="Categorias"
         component={Categorias}
         options={{
           tabBarLabel: 'Categorias',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="folder" color="#89c2d9" size={26} />
+            <MaterialCommunityIcons name="folder" color="#FFD700" size={26} />
           ),
         }}
       />
@@ -113,15 +114,13 @@ function MainTabs() {
         options={{
           tabBarLabel: 'Perfil Usuario',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color="#89c2d9" size={26} />
+            <MaterialCommunityIcons name="account" color="#FFD700" size={26} />
           ),
         }}
       />
     </Tab.Navigator>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   loadingContainer: {
@@ -134,7 +133,5 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
   },
-  drawerStyle: {
-    backgroundColor: '#ffab92', // Color de fondo del drawer
-  },
+  
 });

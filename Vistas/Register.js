@@ -85,13 +85,14 @@ export default function Registro({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#a9d6e5',
+    
+    backgroundColor: '#272780',//azul clarito
   },
   header: {
     flex: 1,
+    backgroundColor: '#272763',//azul clarito
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#014f86',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     paddingBottom: 30,
@@ -104,7 +105,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'white', 
+   
   },
   form: {
     flex: 2,
@@ -123,7 +125,9 @@ const styles = StyleSheet.create({
     elevation: 2, // Sombra para Android
   },
   button: {
-    backgroundColor: '#013a63',
+    
+    backgroundColor: '#272763',//azul clarito
+  
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
@@ -137,7 +141,9 @@ const styles = StyleSheet.create({
   },
   registerText: {
     textAlign: 'center',
-    color: '#013a63',
+    
     textDecorationLine: 'underline',
+    color: '#FFD700', // amarillo
+    fontWeight: 'bold',
   },
 });

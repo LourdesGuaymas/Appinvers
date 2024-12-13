@@ -7,7 +7,7 @@ import * as LocalAuthentication from 'expo-local-authentication';
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false); // State to track loading
+  const [loading, setLoading] = useState(false); 
 
   const saveLogin = async () => {
     await AsyncStorage.setItem('userLoggedIn', 'true');
@@ -34,7 +34,7 @@ export default function Login({ navigation }) {
       return;
     }
 
-    setLoading(true); // Show loading indicator
+    setLoading(true); 
 
     try {
       const response = await fetch('http://192.168.100.20:3000/api/usuarios/login', {
@@ -53,14 +53,14 @@ export default function Login({ navigation }) {
 
       const usuario = await response.json();
       Alert.alert('Éxito', `Bienvenido, ${email}`);
-      await saveLogin(); // Save login state
-      await authenticateBiometric(); // Prompt for biometric authentication
-      navigation.navigate('Home'); // Navigate to Home after login
+      await saveLogin(); 
+      await authenticateBiometric(); 
+      navigation.navigate('Home'); 
     } catch (error) {
       console.error(error);
       Alert.alert('Error', 'Hubo un problema al conectar con el servidor');
     } finally {
-      setLoading(false); // Hide loading indicator
+      setLoading(false);
     }
   };
 
@@ -87,7 +87,7 @@ export default function Login({ navigation }) {
         />
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
           {loading ? (
-            <ActivityIndicator color="#fff" /> // Show loading spinner
+            <ActivityIndicator color="#fff" /> 
           ) : (
             <Text style={styles.buttonText}>Iniciar Sesión</Text>
           )}
@@ -106,13 +106,16 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#a9d6e5',
+    
+    backgroundColor: '#272780',//azul clarito
   },
   header: {
     flex: 1,
+    backgroundColor: '#272763',//azul clarito
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#014f86',
+   
+    
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     paddingBottom: 30,
@@ -125,7 +128,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: 'white',
+    
+    color: 'white', 
   },
   form: {
     marginTop: -80,
@@ -143,7 +147,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   button: {
-    backgroundColor: '#013a63',
+   
+    backgroundColor: '#272763',//azul clarito
+    
     height: 50,
     justifyContent: 'center',
     borderRadius: 10,
@@ -157,6 +163,8 @@ const styles = StyleSheet.create({
   registerText: {
     textAlign: 'center',
     marginTop: 20,
-    color: '#012a4a',
+    color: '#FFD700', // amarillo
+   
+    fontWeight: 'bold',
   },
 });
